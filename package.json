@@ -1,0 +1,16 @@
+{
+  "name": "countercubes",
+  "version": "0.0.1",
+  "description": "",
+  "main": "CubeManager.js",
+  "dependencies": {
+    "nanotimer": "^0.3.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ahmed El Adly https://github.com/3adly96",
+  "license": "ISC"
+}
