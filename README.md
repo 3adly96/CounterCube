@@ -1,4 +1,5 @@
-# CounterCubes
+# EnigmaCube
+
 # Current Version - 0.0.1
 
 A cube that manages and counts the number of requests.
@@ -8,47 +9,122 @@ Instead of hitting the server for every increment of count the cube sends blocks
 ## Usage
 
 ### Create a Cube
+
 ```js
 
-var countercubes = require('countercubes');
+var EnigmaCube = require('enigmacube');
 
-var cubeManager = new countercubes();
+var enigmaCube = new EnigmaCube({
+  onTick:(existingValue, newValue) => {
+    if (!existingValue) return newValue;
+    return existingValue + newValue;
+  },
+  onDestroy:(obj) => {
+  console.log('_____________Cube Destroyed______________')
+  console.log(obj);
+  console.log('_________________________________________\n')
+  }
+});
 
-var reqCube = cubeManager.createCube({ name: 'snapshot:userReqCounter:g', span: 2000, maxTicks: 60 });
+var reqCube = enigmaCube.createCube({ name: 'snapshot:userReqCounter:g', span: 2000, maxTicks: 60 });
 
 ```
 
 ### Get a Cube
+
 ```js
+var EnigmaCube = require("enigmacube");
 
-var countercubes = require('countercubes');
+var enigmaCube = new EnigmaCube({
+  onTick:(existingValue, newValue) => {
+    if (!existingValue) return newValue;
+    return existingValue + newValue;
+  },
+  onDestroy:(obj) => {
+  console.log('_____________Cube Destroyed______________')
+  console.log(obj);
+  console.log('_________________________________________\n')
+  }
+});
 
-var cubeManager = new countercubes();
-
-var reqCube = cubeManager.getCube('snapshot:userReqCounter:g');
+var reqCube = enigmaCube.getCube("snapshot:userReqCounter:g");
 
 ```
 
 ### Get all Cubes
+
 ```js
 
-var countercubes = require('countercubes');
+var EnigmaCube = require('enigmacube');
 
-var cubeManager = new countercubes();
+var enigmaCube = new EnigmaCube({
+  onTick:(existingValue, newValue) => {
+    if (!existingValue) return newValue;
+    return existingValue + newValue;
+  },
+  onDestroy:(obj) => {
+  console.log('_____________Cube Destroyed______________')
+  console.log(obj);
+  console.log('_________________________________________\n')
+  }
+});
 
-var cubes = cubeManager.getCubes());
+var cubes = enigmaCube.getCubes());
 
 ```
 
-## .createCube({name, span, maxTicks})
-* **name**
-  * the Name of the cube
-* **span**
-  * Time in milliseconds that the cube will be destroy and send after.
-  * Ex. 5000
-* **maxTicks**
-  * Number of times the cube will tick before destroying and sending count.
+### Full Example
 
+```js
+
+var EnigmaCube = require("enigmacube");
+
+var enigmaCube = new EnigmaCube({
+  onTick:(existingValue, newValue) => {
+    if (!existingValue) return newValue;
+    return existingValue + newValue;
+  },
+  onDestroy:(obj) => {
+  console.log('_____________Cube Destroyed______________')
+  console.log(obj);
+  console.log('_________________________________________\n')
+  }
+});
+
+var reqCube = enigmaCube.createCube({
+  name: "snapshot:userReqCounter:g",
+  span: 2000,
+  maxTicks: 60,
+});
+
+setInterval(() => {
+  reqCube.tick('request', 1);
+}, 250);
+
+```
+## EnigmaCube({onTick, onDestroy})
+- **onTick**
+  - The function that will be executed whenever **cube.tick** is called.
+- **onDestroy**
+  - The function that will be executed whenever the cube gets destroyed.
+## .createCube({name, span, maxTicks})
+
+- **name**
+  - the Name of the cube.
+- **span**
+  - Time in milliseconds that the cube will be destroy and send after.
+  - Ex. 5000
+- **maxTicks**
+  - Number of times the cube will tick before destroying and sending count.
 ## .getCube(name)
-* **name**
-  * the Name of the cube that will be retrieved
+
+- **name**
+  - the Name of the cube that will be retrieved.
+## cube.tick(key,value)
+
+- **key**
+  - The name of the index inside the cube.
+- **value**
+  - The value in the cube that will be added in that **key**.
+
+

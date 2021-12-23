@@ -83,7 +83,7 @@ class Cube {
   _initTimer() {
     this.myTimeout = this.timer.setTimeout(() => {
       this._destroy();
-    }, '' ,this.span+'m');
+    }, '', this.span + 'm');
   }
 
   _destroy() {
