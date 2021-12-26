@@ -38,6 +38,7 @@ class Cube {
     this.maxTicks = maxTicks || null
     /** Timeout object of Cube */
     this.myTimeout = {};
+    this.tickCount = 0;
 
     this.timer = new NanoTimer();
   }
@@ -59,7 +60,6 @@ class Cube {
   }
 
   tick(key, value) {
-    var sum = 0;
     if (!key) return;
     let currentDoc = this.tree[key];
     /* spin the cube if sleeping */
@@ -70,13 +70,11 @@ class Cube {
     currentDoc = this.onTick(currentDoc, value);
     this.tree[key] = currentDoc;
     currentDoc = this.afterTick(currentDoc, value);
-    for (let key in this.tree) {
-      sum += this.tree[key];
-      if (this.maxTicks) {
-        if (sum >= this.maxTicks) {
-          this._destroy();
-        }
+    if (this.maxTicks) {
+      if (this.tickCount >= this.maxTicks) {
+        this._destroy();
       }
+      this.tickCount++;
     }
   }
 
